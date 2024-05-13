@@ -22,15 +22,15 @@ public class Board{
   private Long id;
 
   @Column(nullable = false)
-  private String title;
+  private String name;
 
   @Column(nullable = false)
-  private String content;
+  private String description;
 
   @Builder
-  public Board(String title, String content){
-    this.title = title;
-    this.content = content;
+  public Board(String name, String description){
+    this.name = name;
+    this.description = description;
   }
 
 }

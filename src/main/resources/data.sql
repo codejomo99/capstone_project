@@ -6,7 +6,7 @@ VALUES
     ('user3@example.com', 'password3', 'User 3', 'BUSINESS_ADMINISTRATION', 'ID_21');
 
 -- 게시판 데이터
-INSERT INTO board (title, content)
+INSERT INTO board (name, description)
 VALUES
     ('게시판 제목1', '게시판 내용1'),
     ('게시판 제목2', '게시판 내용2'),
