@@ -3,6 +3,7 @@ package com.capstone.jongmin.entity;
 
 import com.capstone.jongmin.entity.studentenum.Department;
 import com.capstone.jongmin.entity.studentenum.StudentId;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,6 +13,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,13 +33,15 @@ public class Post extends BaseEntity{
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "board_id", nullable = false)
-  @OnDelete(action = OnDeleteAction.CASCADE)
+  @JoinColumn(name = "board_id")
   private Board board;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
+
+  @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  private List<Comment> commentList;
 
   @Enumerated(EnumType.STRING)
   private Department department;

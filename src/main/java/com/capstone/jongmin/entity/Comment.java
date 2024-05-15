@@ -32,8 +32,8 @@ public class Comment extends BaseEntity {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "post_id", nullable = false)
+  @ManyToOne
+  @JoinColumn(name = "post_id")
   private Post post;
 
   @Column(nullable = false)
