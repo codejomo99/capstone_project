@@ -30,7 +30,8 @@ public class PostController {
   @GetMapping("/posts/{id}")
   public String readPost(@PathVariable("id") long id, Model model) {
     Post post = postService.findById(id);
-    List<Comment> comments = commentService.findAllComment();
+    List<Comment> comments = commentService.findByPostId(id);
+
 
     model.addAttribute("post",post);
     model.addAttribute("comments",comments);
