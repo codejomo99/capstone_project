@@ -16,15 +16,16 @@ public class CommentService {
     return commentRepository.save(comment);
   }
 
-  public List<Comment> findAllComment(){
-    return commentRepository.findAll();
+  public List<Comment> findByPostId(Long postId){
+    return commentRepository.findByPostId(postId);
   }
 
   public Comment updateComment(Long id, Comment comment){
     Comment findComment = commentRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("not found: "+id));
     findComment.update(comment.getContent());
 
-    return findComment;
+    Comment savedComment = commentRepository.save(findComment); // 변경 사항 저장
+    return savedComment;
   }
 
   public void deleteComment(Long id){
