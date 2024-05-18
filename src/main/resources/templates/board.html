@@ -64,13 +64,13 @@
         <a
           class="board-item list-group-item p-3 list-group-item-action"
           th:unless="${postPage.isEmpty()}"
-          th:each="post : ${postPage}"
+          th:each="post : ${postPage.content}"
           th:href="@{/posts/{postId}(postId=${post.id})}"
         >
-          <h4 class="fw-bold mb-1" th:text="${post.title}">게시글 제목</h4>
-          <small class="text-secondary" th:text="${post.createdAt}"
-            >게시글 생성일</small
-          >
+          <h4 class="fw-bold mb-1" th:text="${post.getTitle()}">게시글 제목</h4>
+<!--          <small class="text-secondary" th:text="${post.getCreatedAt()}"-->
+<!--            >게시글 생성일</small-->
+<!--          >-->
         </a>
         <span
           th:if="${postPage.isEmpty()}"
