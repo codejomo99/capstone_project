@@ -42,12 +42,8 @@ public class BoardController {
 
   @PostMapping("/boards/{id}/edit")
   public String editBoard(@PathVariable("id") long id, @ModelAttribute BoardRequest boardRequest) {
-    System.out.println("Received edit request for board ID: " + id);
-    System.out.println("Board name: " + boardRequest.getName());
-    System.out.println("Board description: " + boardRequest.getDescription());
 
     boardService.update(id, boardRequest.toEntity());
-    System.out.println("Board updated successfully");
 
     return "redirect:/boards";
   }
