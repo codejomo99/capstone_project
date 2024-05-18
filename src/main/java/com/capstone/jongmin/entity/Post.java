@@ -71,6 +71,11 @@ public class Post extends BaseEntity{
     this.content = content;
   }
 
+  public void update(String title, String content){
+    this.title = title;
+    this.content = content;
+  }
+
   @Builder
   public Post(String title, String content, int likeCount, boolean searchAllowed, boolean commentAllowed, Department department, StudentId studentId, User user, Board board) {
     this.title = title;
