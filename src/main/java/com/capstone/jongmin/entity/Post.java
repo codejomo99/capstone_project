@@ -37,7 +37,7 @@ public class Post extends BaseEntity{
   private Board board;
 
   @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
+  @JoinColumn(name = "user_id")
   private User user;
 
   @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -66,10 +66,12 @@ public class Post extends BaseEntity{
   private boolean commentAllowed;
 
   @Builder
-  public Post(String title, String content){
+  public Post(String title, String content, Board board){
     this.title = title;
+    this.board = board;
     this.content = content;
   }
+
 
   public void update(String title, String content){
     this.title = title;

@@ -15,9 +15,9 @@ VALUES
 -- 게시물 데이터
 INSERT INTO post (title, content, like_count, search_allowed, comment_allowed, department, student_id, user_id, board_id)
 VALUES
-    ('게시물 제목1', '게시물 내용1', 0, true, true, 'COMPUTER_ENGINEERING', 'ID_19', 1, 1),
-    ('게시물 제목2', '게시물 내용2', 0, true, true, 'ELECTRICAL_ENGINEERING', 'ID_20', 2, 2),
-    ('게시물 제목3', '게시물 내용3', 0, true, true, 'BUSINESS_ADMINISTRATION', 'ID_21', 3, 3);
+    ('포스트 제목1', '게시물 내용1', 0, true, true, 'COMPUTER_ENGINEERING', 'ID_19', 1, 1),
+    ('포스트 제목2', '게시물 내용2', 0, true, true, 'ELECTRICAL_ENGINEERING', 'ID_20', 2, 2),
+    ('포스트 제목3', '게시물 내용3', 0, true, true, 'BUSINESS_ADMINISTRATION', 'ID_21', 3, 3);
 
 -- 댓글 데이터
 INSERT INTO comment (user_id, post_id, content)

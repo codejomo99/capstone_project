@@ -43,5 +43,4 @@ public class BoardService {
   public void deleteBoard(Long id) {
     boardRepository.deleteById(id);
   }
-
 }
