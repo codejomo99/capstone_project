@@ -12,6 +12,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -60,5 +61,14 @@ public class Comment extends BaseEntity {
   public void addChildComment(Comment childComment) {
     childComments.add(childComment);
     childComment.setParentComment(this);
+  }
+
+  @Builder
+  public Comment(String content){
+    this.content = content;
+  }
+
+  public void update(String content){
+    this.content = content;
   }
 }
