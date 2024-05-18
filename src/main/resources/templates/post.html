@@ -64,11 +64,7 @@
           class="container p-0 d-flex flex-column align-items-start gap-2"
           th:unless="${#lists.isEmpty(comments)}"
         >
-          <div
-            class="card comment"
-            style="min-width: 30%"
-            th:each="comment : ${comments}"
-          >
+          <div class="card comment" style="min-width: 30%" th:each="comment : ${comments}" th:attr="data-comment-id=${comment.id}">
             <div class="card-body position-relative">
               <p class="mb-2" th:text="${comment.content}">댓글 내용</p>
               <small class="text-secondary">2024-01-04T13:21:21</small>
@@ -324,10 +320,45 @@
       }
 
       function handleEditCommentButton(_, commentId, content) {
-        document.getElementById("commentContentTextarea").innerText = content;
-        document
-          .getElementById("commentEditForm")
-          .setAttribute("action", `/comments/${commentId}/edit`);
+        document.getElementById("commentContentTextarea").value = content;
+
+        document.getElementById("commentEditForm").addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const formData = new FormData(event.target);
+          const commentData = {
+            content: formData.get("content")
+          };
+
+          fetch(`/comments/${commentId}/edit`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(commentData)
+          })
+          .then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("댓글 수정 실패");
+            }
+          })
+          .then(updatedComment => {
+            // 수정된 댓글 내용으로 화면 업데이트
+            const commentElement = document.querySelector(`.comment[data-comment-id="${commentId}"]`);
+            commentElement.querySelector("p").textContent = updatedComment.content;
+            console.log(updatedComment);
+
+            // 모달 창 닫기
+            const modal = bootstrap.Modal.getInstance("#editCommentModal");
+            modal.hide();
+          })
+          .catch(error => {
+            console.error("댓글 수정 실패:", error);
+            // 수정 실패 시 처리 로직 추가
+          });
+        });
       }
     </script>
   </body>
