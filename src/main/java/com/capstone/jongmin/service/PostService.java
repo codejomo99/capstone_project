@@ -41,6 +41,8 @@ public class PostService {
     Post findPost = postRepository.findById(id).orElseThrow(()-> new IllegalArgumentException(("not found: ")+id));
     findPost.update(post.getTitle(),post.getContent());
 
+    postRepository.save(findPost);
+
     return findPost;
   }
   // DELETE
