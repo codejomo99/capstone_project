@@ -100,19 +100,15 @@
           >댓글이 없습니다.</span
         >
 
-        <form
-          class="mt-3 row"
-          th:action="@{/comments(postId=${post.id})}"
-          method="POST"
-        >
+        <form id="commentForm" class="mt-3 row">
           <div class="input-group">
-            <textarea
-              class="form-control"
-              name="content"
-              cols="6"
-              placeholder="댓글 작성하기"
-            ></textarea>
-            <button class="btn btn-primary">업로드</button>
+    <textarea
+        class="form-control"
+        name="content"
+        cols="6"
+        placeholder="댓글 작성하기"
+    ></textarea>
+            <button type="submit" class="btn btn-primary">업로드</button>
           </div>
         </form>
 
@@ -360,6 +356,59 @@
           });
         });
       }
+
+      document.getElementById('commentForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const commentData = {
+          content: formData.get('content')
+        };
+
+        fetch('/comments?postId=[[${post.id}]]', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(commentData)
+        })
+        .then(response => response.json())
+        .then(savedComment => {
+          // 새로운 댓글 요소 생성
+          const newCommentElement = document.createElement('div');
+          newCommentElement.classList.add('card', 'comment');
+          newCommentElement.setAttribute('data-comment-id', savedComment.id);
+          newCommentElement.innerHTML = `
+        <div class="card-body position-relative">
+          <p class="mb-2">${savedComment.content}</p>
+          <small class="text-secondary">${new Date().toISOString()}</small>
+
+          <div class="position-absolute end-0 top-50 translate-middle-y mb-3 me-3 btn-group bg-white bg-opacity-75" role="group" aria-label="edit-delete">
+            <button class="btn btn-outline-primary lh-1" data-bs-toggle="modal" data-bs-target="#editCommentModal" onclick="handleEditCommentButton(event, ${savedComment.id}, '${savedComment.content}');">
+              <span class="material-symbols-outlined">edit</span>
+            </button>
+            <button class="btn btn-outline-danger lh-1" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" onclick="handleDeleteCommentButton(event, ${savedComment.id});">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+        </div>
+      `;
+
+          // 댓글 목록에 새로운 댓글 추가
+          const commentsContainer = document.querySelector('.container.p-0.d-flex.flex-column.align-items-start.gap-2');
+          commentsContainer.appendChild(newCommentElement);
+
+          // 댓글 작성 폼 초기화
+          event.target.reset();
+
+          // 댓글 개수 업데이트
+          const commentsCount = document.getElementById('commentsCount');
+          commentsCount.innerText = parseInt(commentsCount.innerText) + 1;
+        })
+        .catch(error => {
+          console.error('댓글 작성 실패:', error);
+        });
+      });
     </script>
   </body>
 </html>
