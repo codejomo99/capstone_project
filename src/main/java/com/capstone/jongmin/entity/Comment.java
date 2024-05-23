@@ -30,7 +30,7 @@ public class Comment extends BaseEntity {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name = "user_id", nullable = false)
+  @JoinColumn(name = "user_id")
   private User user;
 
   @ManyToOne
@@ -64,8 +64,9 @@ public class Comment extends BaseEntity {
   }
 
   @Builder
-  public Comment(String content){
+  public Comment(String content, Post post){
     this.content = content;
+    this.post = post;
   }
 
   public void update(String content){

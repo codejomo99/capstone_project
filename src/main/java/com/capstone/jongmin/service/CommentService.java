@@ -2,7 +2,9 @@ package com.capstone.jongmin.service;
 
 
 import com.capstone.jongmin.entity.Comment;
+import com.capstone.jongmin.entity.Post;
 import com.capstone.jongmin.repository.CommentRepository;
+import com.capstone.jongmin.repository.PostRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,10 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+  private final PostRepository postRepository;
   private final CommentRepository commentRepository;
 
-  public Comment saveComment(Comment comment){
-    return commentRepository.save(comment);
+  public Comment saveComment(Long postId, Comment comment){
+    Post post = postRepository.findById(postId).orElseThrow(()-> new IllegalArgumentException("not found : "+postId));
+    Comment saveComment = new Comment(comment.getContent(), post);
+    return commentRepository.save(saveComment);
   }
 
   public List<Comment> findByPostId(Long postId){
